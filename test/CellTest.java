@@ -19,14 +19,14 @@ public class CellTest {
 
     @Test
     public void testFlag() throws Exception {
-        cell.toggleFlag();
+        cell.flag();
         assertTrue(cell.isFlagged());
     }
 
     @Test
     public void testFlagAgain() throws Exception {
-        cell.toggleFlag();
-        cell.toggleFlag();
+        cell.flag();
+        cell.unflag();
         assertFalse(cell.isFlagged());
     }
 
@@ -34,12 +34,6 @@ public class CellTest {
     public void testDig() throws Exception {
         cell.dig();
         assertFalse(cell.isMasked());
-    }
-
-    @Test(expected=FlagUnmaskedCellException.class)
-    public void testCanOnlyFlagIfMasked() throws Exception {
-        cell.dig();
-        cell.toggleFlag();
     }
 
     @Test

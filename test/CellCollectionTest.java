@@ -2,6 +2,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -45,6 +46,32 @@ public class CellCollectionTest {
     @Test
     public void testCountBombsAround() throws Exception {
         assertEquals(0, cellCollection.countBombAround(0,0));
-        assertEquals(1, cellCollection.countBombAround(0,1));
+        assertEquals(1, cellCollection.countBombAround(0, 1));
+    }
+
+    @Test
+    public void testNoCellLeft() throws Exception {
+        cellCollection.getAt(0,0).flag();
+        cellCollection.getAt(0,1).dig();
+        cellCollection.getAt(1,1).dig();
+        cellCollection.getAt(1,0).dig();
+        assertTrue(cellCollection.noCellLeft());
+    }
+
+    @Test
+    public void testNoCellLeftWithBombMasked() throws Exception {
+        cellCollection.getAt(0,1).dig();
+        cellCollection.getAt(1,1).dig();
+        cellCollection.getAt(1,0).dig();
+        assertFalse(cellCollection.noCellLeft());
+    }
+
+    @Test
+    public void testNoCellLeftWithNormalFlagged() throws Exception {
+        cellCollection.getAt(0,0).flag();
+        cellCollection.getAt(0,1).flag();
+        cellCollection.getAt(1,1).dig();
+        cellCollection.getAt(1,0).dig();
+        assertFalse(cellCollection.noCellLeft());
     }
 }

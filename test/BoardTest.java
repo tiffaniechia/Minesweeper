@@ -1,7 +1,9 @@
+import com.sun.javaws.exceptions.ExitException;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -42,7 +44,27 @@ public class BoardTest {
     @Test
     public void testShouldAcceptActionToggleFlag() throws Exception {
         board.processInput(0, 0, "F");
-        board.processInput(0, 0, "F");
+        board.processInput(0, 0, "C");
         assertEquals("# \n", board.output());
+    }
+
+    @Test(expected = ExplodeException.class)
+    public void testGameOverWhenDigBomb() throws Exception {
+        board = new Board(1, 1);
+        board.processInput(0, 0, "D");
+    }
+
+    @Test
+    public void testWinGameWhenAllCellsAreDig() throws Exception {
+        board = new Board(1, 0);
+        board.processInput(0, 0, "D");
+        assertTrue(board.isComplete());
+    }
+
+    @Test
+    public void testNotGameWhenAllNonBombCellsAreFlagged() throws Exception {
+        board = new Board(1, 0);
+        board.processInput(0, 0, "F");
+        assertFalse(board.isComplete());
     }
 }

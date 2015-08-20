@@ -17,26 +17,29 @@ public class CellGenerator {
         for (int row = 0; row < size; row++) {
             cells[row] = fillCellRow();
         }
+
+        fillBombCellsIntoCells(cells);
         return cells;
     }
 
     private Cell[] fillCellRow() {
         Cell[] cellRow = new Cell[size];
         for (int column = 0; column < size; column++) {
-            cellRow[column] = makeCell();
+            cellRow[column] =  new NormalCell();
         }
         return cellRow;
     }
 
-    private Cell makeCell() {
-        if (requiredBomb > 0) return makeBombCell();
-        return new NormalCell();
-    }
+    private void fillBombCellsIntoCells(Cell[][] cells) {
+        while (requiredBomb > 0) {
+            Random rand = new Random();
+            int xPosition = rand.nextInt(size);
+            int yPosition = rand.nextInt(size);
+            Cell cell = cells[xPosition][yPosition];
 
-    private Cell makeBombCell() {
-        Random rand = new Random();
-        Cell cell = rand.nextBoolean() ? new NormalCell() : new BombCell() ;
-        if (cell.isBomb()) requiredBomb--;
-        return cell;
+            if (cell.isBomb()) continue;
+            cells[xPosition][yPosition] = new BombCell();
+            requiredBomb--;
+        }
     }
 }

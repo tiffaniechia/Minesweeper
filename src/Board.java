@@ -1,7 +1,12 @@
+import com.sun.javaws.exceptions.ExitException;
+
+import java.util.Scanner;
+
 /**
  * Created by vinhbachsy on 19/8/15.
  */
 public class Board {
+
     private CellCollection cells;
     private BoardPresenter boardpresenter;
 
@@ -17,19 +22,16 @@ public class Board {
     }
 
     public String output() {
-
         return boardpresenter.display();
     }
 
-    public void processInput(int xPosition, int yPosition, String action) {
-        try {
-            Cell cell = cells.getAt(xPosition, yPosition);
-            if(action == "D") {cell.dig();}
-            else if(action == "F") {cell.toggleFlag();}
-            output();
-        } catch (ExplodeException exception) {
-        } catch (FlagUnmaskedCellException exception) {
-        }
+    public void processInput(int xPosition, int yPosition, String action) throws ExplodeException, FlagUnmaskedCellException, ActionInputNotFoundException{
+        Cell cell = cells.getAt(xPosition, yPosition);
+        ActionInput actionInput = ActionFactory.build(action);
+        actionInput.execute(cell);
     }
 
+    public boolean isComplete() {
+        return cells.noCellLeft();
+    }
 }

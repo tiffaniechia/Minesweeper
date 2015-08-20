@@ -20,7 +20,7 @@ public class CellCollection {
 
     public long countBombAround(int xPosition, int yPosition) {
         ArrayList<Cell> neighbours = getNeighbours(xPosition, yPosition);
-        return neighbours.stream().filter(p -> p.isBomb()).count();
+        return neighbours.stream().filter(cell -> cell.isBomb()).count();
     }
 
     private ArrayList<Cell> getNeighbours(int xPosition, int yPosition) {
@@ -32,5 +32,17 @@ public class CellCollection {
             if (position.isWithinBoard(cells.length)) neighbours.add(cells[position.getX()][position.getY()]);
         }
         return neighbours;
+    }
+
+
+    public boolean noCellLeft() {
+        for (int row = 0; row < cells.length; row++) {
+            for (int column = 0; column < cells.length; column++) {
+                Cell cell = getAt(row, column);
+                if (cell.isMasked()) return false;
+                if (!cell.isBomb() && cell.isFlagged()) return false;
+            }
+        }
+        return true;
     }
 }

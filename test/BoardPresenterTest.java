@@ -27,7 +27,7 @@ public class BoardPresenterTest {
 
     @Test
     public void testShouldDisplayFlagSymbol() throws Exception {
-        cellCollection.getAt(0,0).toggleFlag();
+        cellCollection.getAt(0,0).flag();
         assertEquals("F # # \n# # # \n# # # \n", boardPresenter.display());
     }
 

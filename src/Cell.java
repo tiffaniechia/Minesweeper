@@ -8,16 +8,6 @@ public abstract class Cell {
         return state == CellState.MASKED;
     }
 
-    public void toggleFlag() throws FlagUnmaskedCellException{
-        if (state == CellState.UNMASKED) throw new FlagUnmaskedCellException();
-        if (isFlagged()) {
-            state = CellState.MASKED;
-            return;
-        }
-
-        state = CellState.FLAGGED;
-    }
-
     public boolean isFlagged() {
         return state == CellState.FLAGGED;
     }
@@ -25,4 +15,13 @@ public abstract class Cell {
     public abstract void dig() throws ExplodeException;
 
     public abstract boolean isBomb();
+
+
+    public void flag() {
+        state = CellState.FLAGGED;
+    }
+
+    public void unflag() {
+        state = CellState.MASKED;
+    }
 }
